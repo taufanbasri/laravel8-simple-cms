@@ -5,10 +5,15 @@ namespace App\Http\Livewire;
 use App\Models\Page;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Pages extends Component
 {
+    use WithPagination;
+
     public $modalFormVisible = false;
+    public $modalConfirmDeleteVisible = false;
+    public $modelId;
     public $slug;
     public $title;
     public $content;
@@ -22,9 +27,14 @@ class Pages extends Component
     {
         return [
             'title' => 'required',
-            'slug' => ['required', Rule::unique('pages', 'slug')],
+            'slug' => ['required', Rule::unique('pages', 'slug')->ignore($this->modelId)],
             'content' => 'required'
         ];
+    }
+
+    public function mount()
+    {
+        $this->resetPage(); // Reset page after refresh page.
     }
 
     public function hydrate()
@@ -51,6 +61,28 @@ class Pages extends Component
 
         $this->reset('title', 'slug', 'content', 'modalFormVisible');
     }
+
+    public function read()
+    {
+        return Page::paginate(5);
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        Page::find($this->modelId)->update($this->modelData());
+
+        $this->reset('title', 'slug', 'content', 'modalFormVisible');
+    }
+
+    public function delete()
+    {
+        Page::destroy($this->modelId);
+        
+        $this->reset('modalConfirmDeleteVisible', 'modelId');
+        $this->resetPage();
+    }
     
     /**
      * Show the form modal
@@ -60,7 +92,29 @@ class Pages extends Component
      */
     public function createShowModal()
     {
+        $this->reset('title', 'slug', 'content', 'modelId');
         $this->modalFormVisible = true;
+    }
+
+    public function updateShowModal($id)
+    {
+        $this->modelId = $id;
+        $this->modalFormVisible = true;
+        $this->loadModel();
+    }
+
+    public function deleteShowModal($id)
+    {
+        $this->modelId = $id;
+        $this->modalConfirmDeleteVisible = true;
+    }
+
+    public function loadModel()
+    {
+        $data = Page::findOrFail($this->modelId);
+        $this->title = $data->title;
+        $this->slug = $data->slug;
+        $this->content = $data->content;
     }
     
     /**
@@ -99,6 +153,8 @@ class Pages extends Component
      */
     public function render()
     {
-        return view('livewire.pages');
+        return view('livewire.pages', [
+            'data' => $this->read()
+        ]);
     }
 }
