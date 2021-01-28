@@ -15,6 +15,10 @@ Route::group(['middleware' => [
     Route::get('/pages', function () {
         return view('admin.pages');
     })->name('pages');
+
+    Route::get('/navigation-menus', function () {
+        return view('admin.navigation-menus');
+    })->name('navigation-menus');
 });
 
 Route::get('/{urlslug}', FrontPage::class);
