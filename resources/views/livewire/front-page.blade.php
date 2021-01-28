@@ -1,9 +1,10 @@
-<div class="divide-y divide-gray-800">
+<div class="divide-y divide-gray-800" x-data="{ show: false }">
     <nav class="flex items-center px-3 py-2 bg-gray-900 shadow-lg">
         <div>
-            <button class="items-center block h-8 mr-3 text-gray-400 hover:text-gray-200 focus:text-gray-200 focus:outline-none sm:hidden">
+            <button @click="show =! show" class="items-center block h-8 mr-3 text-gray-400 hover:text-gray-200 focus:text-gray-200 focus:outline-none sm:hidden">
                 <svg class="w-8 fill-current" viewBox="0 0 24 24">                            
                     <path x-show="!show" fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
+                    <path x-show="show" fill-rule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"/>
                 </svg>
             </button>
         </div>
@@ -40,7 +41,7 @@
             </ul>
 
             {{-- Mobile Web View --}}
-            <div class="block pb-3 divide-y divide-gray-800 sm:hidden">
+            <div :class="show ? 'block' : 'hidden'" class="block pb-3 divide-y divide-gray-800 sm:hidden">
                 <ul class="text-xs text-gray-200">
                     <a href="{{ url('/home') }}">
                         <li class="px-4 py-2 cursor-pointer hover:bg-gray-800">Home</li>
