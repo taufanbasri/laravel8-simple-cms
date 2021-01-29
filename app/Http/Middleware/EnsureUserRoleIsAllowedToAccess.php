@@ -41,6 +41,8 @@ class EnsureUserRoleIsAllowedToAccess
                 'dashboard',
                 'pages',
                 'navigation-menus',
+                'users',
+                'user-permissions'
             ]
         ];
     }
