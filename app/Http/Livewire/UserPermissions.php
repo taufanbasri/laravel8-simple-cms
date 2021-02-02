@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\{{}};
+use App\Models\UserPermission;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class {{}} extends Component
+class UserPermissions extends Component
 {
     use WithPagination;
 
     public $modalFormVisible, $modalConfirmDeleteVisible, $modelId;
 
-    public $title;
+    public $role, $routeName;
 
     public function mount()
     {
@@ -28,7 +28,8 @@ class {{}} extends Component
     public function rules()
     {
         return [
-            
+            'role' => 'required',
+            'routeName' => 'required'
         ];
     }
 
@@ -36,28 +37,28 @@ class {{}} extends Component
     {
         $this->validate();
 
-        {{}}::create($this->modelData());
+        UserPermission::create($this->modelData());
 
         $this->reset();
     }
 
     public function read()
     {
-        return {{}}::paginate(5);
+        return UserPermission::paginate(5);
     }
 
     public function update()
     {
         $this->validate();
 
-        {{}}::find($this->modelId)->update($this->modelData());
+        UserPermission::find($this->modelId)->update($this->modelData());
 
         $this->reset();
     }
 
     public function delete()
     {
-        {{}}::destroy($this->modelId);
+        UserPermission::destroy($this->modelId);
         
         $this->reset();
         $this->resetPage();
@@ -84,21 +85,23 @@ class {{}} extends Component
 
     public function loadModel()
     {
-        $data = {{}}::findOrFail($this->modelId);
+        $data = UserPermission::findOrFail($this->modelId);
 
-        // Assign the variables here.
+        $this->role = $data->role;
+        $this->routeName = $data->route_name;
     }
 
     private function modelData()
     {
         return [
-            
+            'role' => $this->role,
+            'route_name' => $this->routeName
         ];
     }
     
     public function render()
     {
-        return view('livewire.{{}}', [
+        return view('livewire.user-permissions', [
             'data' => $this->read()
         ]);
     }

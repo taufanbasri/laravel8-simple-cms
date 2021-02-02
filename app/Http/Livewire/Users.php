@@ -10,9 +10,9 @@ class Users extends Component
 {
     use WithPagination;
 
-    public $modalFormVisible;
-    public $modalConfirmDeleteVisible;
-    public $modelId;
+    public $modalFormVisible, $modalConfirmDeleteVisible, $modelId;
+
+    public $name, $role;
 
     public function mount()
     {
@@ -28,7 +28,8 @@ class Users extends Component
     public function rules()
     {
         return [
-            
+            'name' => 'required',
+            'role' => 'required'
         ];
     }
 
@@ -86,13 +87,15 @@ class Users extends Component
     {
         $data = User::findOrFail($this->modelId);
 
-        // Assign the variables here.
+        $this->name = $data->name;
+        $this->role = $data->role;
     }
 
     private function modelData()
     {
         return [
-            
+            'name' => $this->name,
+            'role' => $this->role
         ];
     }
     
