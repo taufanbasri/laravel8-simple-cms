@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon eventNotificationServer.js",
+    "eventNotification": "nodemon eventNotificationServer.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "html-entities": "^2.1.0",
+    "websocket": "^1.0.33"
+  }
 }

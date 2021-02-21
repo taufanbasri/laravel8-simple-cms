@@ -77,6 +77,11 @@ class Pages extends Component
 
         $this->reset();
         $this->reset('modalFormVisible');
+
+        $this->dispatchBrowserEvent('event-notification', [
+            'eventName' => 'New Page',
+            'eventMessage' => 'Another page has been created!'
+        ]);
     }
 
     public function read()
@@ -95,6 +100,11 @@ class Pages extends Component
 
         $this->reset();
         $this->reset('modalFormVisible');
+
+        $this->dispatchBrowserEvent('event-notification', [
+            'eventName' => 'New Page',
+            'eventMessage' => 'There is a page ('.$this->modelId.') that has been updated!'
+        ]);
     }
 
     public function delete()
@@ -103,6 +113,11 @@ class Pages extends Component
         
         $this->reset('modalConfirmDeleteVisible', 'modelId');
         $this->resetPage();
+
+        $this->dispatchBrowserEvent('event-notification', [
+            'eventName' => 'New Page',
+            'eventMessage' => 'The page ('.$this->modelId.') that has been deleted!'
+        ]);
     }
 
     /**
@@ -173,6 +188,14 @@ class Pages extends Component
                 'is_default_not_found' => false
             ]);
         }
+    }
+
+    public function dispatchEvent()
+    {
+        $this->dispatchBrowserEvent('event-notification', [
+            'eventName' => 'Sample Event',
+            'eventMessage' => 'You have a sample event notification!'
+        ]);
     }
     
     /**
